@@ -1,0 +1,25 @@
+npm install mongoose next-auth
+npx shadcn@latest init
+npx shadcn@latest add card input separator button
+npm install react-icons
+npm install bcryptjs
+npm install --save-dev @types/bcryptjs
+npx shadcn@latest add sonner
+
+tạo chuỗi 64 bit : node -e "console.log(require('crypto').randomBytes(48).toString('base64'));"
+
+Thay đổi DNS: Thử sử dụng DNS công khai như Google hoặc Cloudflare:
+
+Google DNS: 8.8.8.8 và 8.8.4.4.
+Cloudflare DNS: 1.1.1.1 và 1.0.0.1.
+Thực hiện trên Windows:
+
+Mở Control Panel > Network and Internet > Network and Sharing Center.
+Nhấp vào mạng đang sử dụng, sau đó chọn Properties.
+Chọn Internet Protocol Version 4 (TCP/IPv4) > Properties.
+Chọn Use the following DNS server addresses:
+Preferred: 8.8.8.8
+Alternate: 8.8.4.4
+
+npx shadcn@latest add avatar dropdown-menu
+npm install @radix-ui/react-select clsx tailwind-variants
