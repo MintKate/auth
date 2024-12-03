@@ -29,10 +29,11 @@ const SignUp = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    gpa: "",
-    programmingSkill: "", // Khả năng lập trình
-    teamworkSkill: "", // Khả năng làm việc nhóm
-    hobby: "", // Sở thích
+    msv: "",
+    hobby: "",
+    workingSkill: "",
+    mainActivity: "",
+    infoSource: "",
   });
 
   const [pending, setPending] = useState(false);
@@ -44,12 +45,10 @@ const SignUp = () => {
     console.log(form); // Debugging step
     setPending(true);
 
-    const formData = { ...form, gpa: parseFloat(form.gpa) };
-
     const res = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData), // Gửi formData đã được cập nhật
+      body: JSON.stringify(form), 
     });
 
     const data = await res.json();
@@ -91,7 +90,7 @@ const SignUp = () => {
             <Input
               type="text"
               disabled={pending}
-              placeholder="Full name"
+              placeholder="Họ và tên"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
@@ -107,7 +106,7 @@ const SignUp = () => {
             <Input
               type="password"
               disabled={pending}
-              placeholder="Password"
+              placeholder="Mật khẩu"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               required
@@ -115,7 +114,7 @@ const SignUp = () => {
             <Input
               type="password"
               disabled={pending}
-              placeholder="Confirm Password"
+              placeholder="Xác nhận lại mật khẩu"
               value={form.confirmPassword}
               onChange={(e) =>
                 setForm({ ...form, confirmPassword: e.target.value })
@@ -123,45 +122,43 @@ const SignUp = () => {
               required
             />
             <Input
-              type="number"
+              type="text"
               step="0.1"
-              min="0"
-              max="10"
               disabled={pending}
-              placeholder="Average Score (0-10)"
-              value={form.gpa}
+              placeholder="MSV"
+              value={form.msv}
               onChange={(e) =>
-                setForm({ ...form, gpa: e.target.value })
+                setForm({ ...form, msv: e.target.value })
               }
               required
             />
 
-            {/* Khả năng lập trình */}
+            {/* Sở thích */}
             <Select
               onValueChange={(value) =>
-                setForm({ ...form, programmingSkill: value })
+                setForm({ ...form, hobby: value })
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Programming Skill" />
+                <SelectValue placeholder="Sở thích" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Rất kém">Rất kém</SelectItem>
-                <SelectItem value="Kém">Kém</SelectItem>
-                <SelectItem value="Trung bình">Trung bình</SelectItem>
-                <SelectItem value="Ổn">Ổn</SelectItem>
-                <SelectItem value="Tốt">Tốt</SelectItem>
+                <SelectItem value="Kinh tế">Kinh tế</SelectItem>
+                <SelectItem value="Nông nghiệp">Nông nghiệp</SelectItem>
+                <SelectItem value="Bất động sản">Bất động sản</SelectItem>
+                <SelectItem value="Giáo dục">Giáo dục</SelectItem>
               </SelectContent>
             </Select>
 
-            {/* Khả năng làm việc nhóm */}
+
+            {/* Kĩ năng làm việc */}
             <Select
               onValueChange={(value) =>
-                setForm({ ...form, teamworkSkill: value })
+                setForm({ ...form, workingSkill: value })
               }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Teamwork Skill" />
+                <SelectValue placeholder="Kĩ năng làm việc" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Tổng hợp">Tổng hợp</SelectItem>
@@ -170,17 +167,35 @@ const SignUp = () => {
               </SelectContent>
             </Select>
 
-            {/* Sở thích */}
+            {/* Hoạt động chính */}
             <Select
-              onValueChange={(value) => setForm({ ...form, hobby: value })}
+              onValueChange={(value) =>
+                setForm({ ...form, mainActivity: value })
+              }
             >
               <SelectTrigger>
-                <SelectValue placeholder="Hobby" />
+                <SelectValue placeholder="Hoạt động chính" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Lập trình">Lập trình</SelectItem>
-                <SelectItem value="Thiết kế">Thiết kế</SelectItem>
-                <SelectItem value="Phân tích">Phân tích</SelectItem>
+                <SelectItem value="Phân tích tài chính">Phân tích tài chính</SelectItem>
+                <SelectItem value="Sản xuất">Sản xuất</SelectItem>
+                <SelectItem value="Đầu tư">Đầu tư</SelectItem>
+                <SelectItem value="Đào tạo">Đào tạo</SelectItem>
+              </SelectContent>
+            </Select>
+
+            {/* Nguồn thông tin */}
+            <Select
+              onValueChange={(value) => setForm({ ...form, infoSource: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Nguồn thông tin" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Người dùng cá nhân">Người dùng cá nhân</SelectItem>
+                <SelectItem value="Môi trường">Môi trường</SelectItem>
+                <SelectItem value="Địa lý">Địa lý</SelectItem>
+                <SelectItem value="Học tập">Học tập</SelectItem>
               </SelectContent>
             </Select>
 

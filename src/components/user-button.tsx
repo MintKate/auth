@@ -1,4 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,13 +54,14 @@ const UserButton = () => {
         </DropdownMenu>
       ) : (
         <div className="flex justify-end p-4 gap-4">
-          <Button>
-            <Link href="sign-in">Sign in</Link>
-          </Button>
-          <Button>
-            <Link href="sign-up">Sign up</Link>
-          </Button>
-        </div>
+        <Button>
+          <Link href="sign-in">Sign in</Link>
+        </Button>
+        <Button>
+          <Link href="sign-up">Sign up</Link>
+        </Button>
+      </div>
+
       )}
     </nav>
   );

@@ -23,3 +23,6 @@ Alternate: 8.8.4.4
 
 npx shadcn@latest add avatar dropdown-menu
 npm install @radix-ui/react-select clsx tailwind-variants
+
+npm install @nextui-org/react@latest
+npm i @nextui-org/react framer-motion

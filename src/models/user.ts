@@ -5,10 +5,11 @@ interface IUser extends Document {
   email: string;
   password?: string;
   id: string;
-  gpa: number;  // Thêm trường gpa
-  programmingSkill: string;  // Thêm trường kỹ năng lập trình
-  teamworkSkill: string;  // Thêm trường kỹ năng làm việc nhóm
-  hobby: string;  // Thêm trường sở thích
+  msv: string;  
+  hobby: string;  
+  workingSkill: string;  
+  mainActivity: string;
+  infoSource: string; 
 }
 
 const UserSchema: Schema<IUser> = new mongoose.Schema({
@@ -25,25 +26,31 @@ const UserSchema: Schema<IUser> = new mongoose.Schema({
     type: String,
     required: false,
   },
-  gpa: {
-    type: Number,
-    required: true,  // gpa là một trường bắt buộc
-  },
-  programmingSkill: {
+  msv: {
     type: String,
-    required: true,  // Kỹ năng lập trình là một trường bắt buộc
-    enum: ['Rất kém', 'Kém', 'Trung bình', 'Ổn', 'Tốt'],  // Giá trị có thể chọn
-  },
-  teamworkSkill: {
-    type: String,
-    required: true,  // Kỹ năng làm việc nhóm là một trường bắt buộc
-    enum: ['Tổng hợp', 'Tìm task', 'Phân chia task'],  // Giá trị có thể chọn
+    required: true, 
   },
   hobby: {
     type: String,
-    required: true,  // Sở thích là một trường bắt buộc
-    enum: ['Lập trình', 'Thiết kế', 'Phân tích'],  // Giá trị có thể chọn
+    required: true,  
+    enum: ['Kinh tế', 'Nông nghiệp', 'Bất động sản', 'Giáo dục'],  // Giá trị có thể chọn
+  },
+  workingSkill: {
+    type: String,
+    required: true,  
+    enum: ['Tổng hợp', 'Tìm task', 'Phân chia task'],  // Giá trị có thể chọn
+  },
+  mainActivity: {
+    type: String,
+    required: true,  
+    enum: ['Phân tích tài chính', 'Sản xuất', 'Đầu tư', 'Đào tạo'],  // Giá trị có thể chọn
+  },
+  infoSource: {
+    type: String,
+    required: true,  
+    enum: ['Người dùng cá nhân', 'Môi trường', 'Địa lý', 'Học tập'],  // Giá trị có thể chọn
   }
+
 }, { timestamps: true }  
  
 );
