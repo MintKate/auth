@@ -1,4 +1,10 @@
+npm install next-auth
 npm install mongoose next-auth
+
+----cài đặt tailwind
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init
+
 npx shadcn@latest init
 npx shadcn@latest add card input separator button
 npm install react-icons

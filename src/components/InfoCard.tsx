@@ -1,74 +1,36 @@
-import type { NextPage } from "next";
-import { Card, Button } from "@nextui-org/react";
+import React from "react";
 
 interface Props {
   title: string;
-  label: string;
+  compatibility: string;
   imageURL: string;
   studentCount: string;
 }
 
-const InfoCard: NextPage<Props> = (props) => {
-  const { title, label, imageURL, studentCount } = props;
-
+const InfoCard: React.FC<Props> = ({ title, compatibility, imageURL, studentCount }) => {
   return (
-    <Card style={{ position: "relative", overflow: "hidden" }}>
+    <div className="relative bg-white shadow-md rounded-lg overflow-hidden">
       {/* Header */}
-      <div
-        style={{
-          position: "absolute",
-          top: 5,
-          zIndex: 1,
-          backgroundColor: "rgba(0, 0, 0, 0.6)",
-          padding: "8px",
-          borderRadius: "8px",
-        }}
-      >
-        <p style={{ fontSize: "12px", fontWeight: "bold", color: "#ffffffAA" }}>
-          {label}
-        </p>
-        <h4 style={{ color: "white" }}>{title}</h4>
+      <div className="absolute top-2 left-2 z-10 bg-black bg-opacity-60 text-white p-2 rounded-md">
+        <h4 className="text-sm font-bold">{title}</h4>
+        <p className="text-xs font-semibold">{compatibility}</p>
       </div>
 
       {/* Image */}
       <img
         src={imageURL}
         alt={`Image for ${title}`}
-        style={{
-          objectFit: "cover",
-          width: "100%",
-          height: "200px",
-        }}
+        className="object-cover w-full h-48"
       />
 
       {/* Footer */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: 0,
-          width: "100%",
-          background: "rgba(15, 17, 20, 0.6)",
-          padding: "16px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <p style={{ color: "#d1d1d1", fontSize: "16px", margin: 0 }}>
-          {studentCount} thành viên
-        </p>
-        <Button
-          variant="flat"
-          style={{
-            borderRadius: "50px",
-            color: "white",
-            backgroundColor: "rgba(0, 123, 255, 0.8)",
-          }}
-        >
+      <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-60 text-white flex items-center justify-between p-4">
+        <p className="text-sm">{studentCount} thành viên</p>
+        <button className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600">
           Chọn vào nhóm
-        </Button>
+        </button>
       </div>
-    </Card>
+    </div>
   );
 };
 
