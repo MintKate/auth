@@ -11,6 +11,7 @@ npm install react-icons
 npm install bcryptjs
 npm install --save-dev @types/bcryptjs
 npx shadcn@latest add sonner
+npx shadcn@latest add table
 
 tạo chuỗi 64 bit : node -e "console.log(require('crypto').randomBytes(48).toString('base64'));"
 

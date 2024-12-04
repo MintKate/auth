@@ -1,3 +1,5 @@
+"use-client";
+
 import {
   Avatar,
   AvatarFallback,
@@ -14,22 +16,31 @@ import { useRouter } from "next/navigation";
 import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import React from 'react';
 
-const UserButton = () => {
+const UserButton = ({ onSessionChange }: { onSessionChange: (session: any) => void }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  // Notify parent component of session change
+  React.useEffect(() => {
+    onSessionChange(session);
+  }, [session]);
 
   if (status === "loading") {
     return <Loader className="size-6 mr-4 mt-4 float-right animate-spin" />;
   }
 
   const avatarFallback = session?.user?.name?.charAt(0).toUpperCase();
-    const handleSignOut = async () => {
-        await signOut({
-            redirect: false,
-        });
-        router.push("/")
-}
+
+  const handleSignOut = async () => {
+    await signOut({
+      redirect: false,
+    });
+    onSessionChange(null); // Thông báo cho component cha về việc đăng xuất
+    router.push("/"); // Điều hướng về trang chủ hoặc trang mong muốn
+  };
+
   return (
     <nav>
       {session ? (
@@ -49,22 +60,24 @@ const UserButton = () => {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center" side="bottom" className="w-50">
-            <DropdownMenuItem className="h-10" onClick={()=>handleSignOut()}>Log out</DropdownMenuItem>
+            <DropdownMenuItem className="h-10" onClick={handleSignOut}>
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
         <div className="flex justify-end p-4 gap-4">
-        <Button>
-          <Link href="sign-in">Sign in</Link>
-        </Button>
-        <Button>
-          <Link href="sign-up">Sign up</Link>
-        </Button>
-      </div>
-
+          <Button>
+            <Link href="/sign-in">Sign in</Link>
+          </Button>
+          <Button>
+            <Link href="/sign-up">Sign up</Link>
+          </Button>
+        </div>
       )}
     </nav>
   );
 };
 
 export default UserButton;
+
