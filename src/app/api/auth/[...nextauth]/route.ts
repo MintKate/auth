@@ -13,13 +13,13 @@ const handler = NextAuth({
         CredentialsProvider({
             name: "Credentials",
             credentials: {
-                email: {},
+                msv: {},
                 password:{},
             },
             async authorize(credentials) {
                 try {
                     await connectToDatabase();
-                    const user = await User.findOne({ email: credentials?.email });
+                    const user = await User.findOne({ msv: credentials?.msv });
                     if (!user) {
                         throw new Error("")
                     }

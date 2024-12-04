@@ -70,6 +70,32 @@ export async function POST(request: Request) {
             console.error("Lỗi lưu người dùng:", error);
             return NextResponse.json({ message: "Lỗi lưu người dùng vào CSDL!" }, { status: 500 });
         }
+
+                // Send the registration data to the external server
+                try {
+                    const response = await fetch('http://127.0.0.1:8000/api/get-student-tlu/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            name,
+                            email,
+                            msv,
+                            hobby,
+                            workingSkill,
+                            mainActivity,
+                            infoSource,
+                        }),
+                    });
+        
+                    if (!response.ok) {
+                        console.error("Failed to send data to external server:", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error sending data to external server:", error);
+                }
+        
         
 
         // Return success message

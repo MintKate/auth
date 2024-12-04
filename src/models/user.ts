@@ -3,7 +3,7 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 interface IUser extends Document {
   name: string;
   email: string;
-  password?: string;
+  password: string;
   id: string;
   msv: string;  
   hobby: string;  
