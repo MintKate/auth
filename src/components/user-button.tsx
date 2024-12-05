@@ -1,4 +1,4 @@
-"use-client";
+"use-client"
 
 import {
   Avatar,
@@ -17,6 +17,7 @@ import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from 'react';
+
 
 const UserButton = ({ onSessionChange }: { onSessionChange: (session: any) => void }) => {
   const router = useRouter();
@@ -37,8 +38,7 @@ const UserButton = ({ onSessionChange }: { onSessionChange: (session: any) => vo
     await signOut({
       redirect: false,
     });
-    onSessionChange(null); // Thông báo cho component cha về việc đăng xuất
-    router.push("/"); // Điều hướng về trang chủ hoặc trang mong muốn
+    router.push("/sign-in");
   };
 
   return (
@@ -60,18 +60,16 @@ const UserButton = ({ onSessionChange }: { onSessionChange: (session: any) => vo
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="center" side="bottom" className="w-50">
-            <DropdownMenuItem className="h-10" onClick={handleSignOut}>
-              Log out
-            </DropdownMenuItem>
+            <DropdownMenuItem className="h-10" onClick={() => handleSignOut()}>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
         <div className="flex justify-end p-4 gap-4">
           <Button>
-            <Link href="/sign-in">Sign in</Link>
+            <Link href="sign-in">Sign in</Link>
           </Button>
           <Button>
-            <Link href="/sign-up">Sign up</Link>
+            <Link href="sign-up">Sign up</Link>
           </Button>
         </div>
       )}
@@ -80,4 +78,3 @@ const UserButton = ({ onSessionChange }: { onSessionChange: (session: any) => vo
 };
 
 export default UserButton;
-

@@ -7,12 +7,12 @@ import mongoose from 'mongoose';
 export async function POST(request: Request) {
     try {
         // Destructure the incoming JSON body
-        const { name, email, password, confirmPassword, msv, hobby, workingSkill, mainActivity,  infoSource} = await request.json();
+        const { name, email, password, msv, hobby, workingSkill, mainActivity,  infoSource} = await request.json();
 
-        console.log("Received request data:", { name, email, password, confirmPassword, msv, hobby, workingSkill, mainActivity,  infoSource });
+        console.log("Received request data:", { name, email, password, msv, hobby, workingSkill, mainActivity,  infoSource });
 
         // Check if all fields are provided
-        if (!name || !email || !password || !confirmPassword || !msv || !hobby || !workingSkill || !mainActivity || !infoSource) {
+        if (!name || !email || !password || !msv || !hobby || !workingSkill || !mainActivity || !infoSource) {
             return NextResponse.json({ message: "All fields are required" }, { status: 400 });
         }
 
@@ -24,11 +24,6 @@ export async function POST(request: Request) {
 
         if (!isValidEmail(email)) {
             return NextResponse.json({ message: "Email không đúng định dạng!" }, { status: 400 });
-        }
-
-        // Ensure the passwords match
-        if (confirmPassword !== password) {
-            return NextResponse.json({ message: "Mật khẩu cần xác nhận lại, vui lòng nhập đúng!" }, { status: 400 });
         }
 
         // Ensure password is at least 6 characters long

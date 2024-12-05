@@ -24,7 +24,7 @@ import { TriangleAlert } from "lucide-react";
 
 const GroupDetails = () => {
   return (
-    <div className="h-full flex items-center justify-center bg-[#1b0918] text-w">
+    <div className="h-full flex items-center justify-center text-white bg-[#1b0918] text-w">
       Group details
     </div>
   );

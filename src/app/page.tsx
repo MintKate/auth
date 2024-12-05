@@ -15,10 +15,20 @@ const HomeComponent: React.FC = () => {
   const [message, setMessage] = useState<string | null>(null); // Lưu thông báo kết quả
 
   // Cập nhật session khi có sự thay đổi
-  useEffect(() => {
-    setSession(sessionData);
-  }, [sessionData]);
+  // useEffect(() => {
+  //   setSession(sessionData);
+  // }, [sessionData]);
+  
+  const [similarityScores, setSimilarityScores] = useState(null);
 
+  useEffect(() => {
+    const storedScores = localStorage.getItem("similarityScores");
+    if (storedScores) {
+      setSimilarityScores(JSON.parse(storedScores)); // Retrieve similarity_scores
+    } else {
+      console.log("No similarity scores found.");
+    }
+  }, []);
 
   const [pending, setPending] = useState(false);
   const router = useRouter();
@@ -110,33 +120,33 @@ const HomeComponent: React.FC = () => {
 
       {/* Displaying Product Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-        <InfoCard
+      <InfoCard
           topicName="Hệ thống kinh doanh nông nghiệp"
-          compatibility={session ? "50%" : ""}
+          compatibility={session ? `${similarityScores?.["Topic A"] || "50%"}` : ""}
           imageURL="https://littlevisuals.co/images/red_dawn.jpg"
           studentCount="4"
-          onClick={() => handleJoinGroup("Topic A", "50%")} // Lưu người dùng vào nhóm khi nhấn
+          onClick={() => handleJoinGroup("Topic A", similarityScores?.["Topic A"] || "50%")}
         />
         <InfoCard
           topicName="Hệ thống quản lý tài chính cho cá nhân"
-          compatibility={session ? "60%" : ""}
+          compatibility={session ? `${similarityScores?.["Topic B"] || "60%"}` : ""}
           imageURL="https://littlevisuals.co/images/sunset.jpg"
           studentCount="3"
-          onClick={() => handleJoinGroup("Topic B", "60%")} // Lưu người dùng vào nhóm khi nhấn
+          onClick={() => handleJoinGroup("Topic B", similarityScores?.["Topic B"] || "60%")}
         />
         <InfoCard
           topicName="Hệ thống tìm kiếm mặt bằng cho thuê"
-          compatibility={session ? "10%" : ""}
+          compatibility={session ? `${similarityScores?.["Topic C"] || "10%"}` : ""}
           imageURL="https://littlevisuals.co/images/tail.jpg"
           studentCount="5"
-          onClick={() => handleJoinGroup("Topic C", "10%")} // Lưu người dùng vào nhóm khi nhấn
+          onClick={() => handleJoinGroup("Topic C", similarityScores?.["Topic C"] || "10%")}
         />
         <InfoCard
           topicName="Hệ thống đào tạo thông minh cho sinh viên"
-          compatibility={session ? "90%" : ""}
+          compatibility={session ? `${similarityScores?.["Topic D"] || "90%"}` : ""}
           imageURL="https://littlevisuals.co/images/steam.jpg"
           studentCount="5"
-          onClick={() => handleJoinGroup("Topic D", "90%")} // Lưu người dùng vào nhóm khi nhấn
+          onClick={() => handleJoinGroup("Topic D", similarityScores?.["Topic D"] || "90%")}
         />
       </div>
 

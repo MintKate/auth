@@ -42,30 +42,47 @@ const SignUp = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form); // Debugging step
+    console.log("Form Data: ", form)
     setPending(true);
+    setError(null);
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/post-student-data/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(form),
+        });
 
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form), 
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      setPending(false);
-      toast.success(data.message);
-      router.push("/sign-in");
-    } else if (res.status === 400) {
-      setError(data.message);
-      setPending(false);
-    } else if (res.status === 500) {
-      setError(data.message);
-      setPending(false);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || "Something went wrong");
+        }
+        const data = await response.json();
+        console.log("Response from API:", data); // In kết quả trả về từ backend
+        //lưu dữ liệu trả về vào local
+        const data1 = data.data;
+        localStorage.setItem("data", JSON.stringify(data1));
+        
+        if (response.ok) {
+            setPending(false);
+            router.push("/notification");
+          } else if (response.status === 400) {
+            setError(data.message);
+            setPending(false);
+          } else if (response.status === 500) {
+            setError(data.message);
+            setPending(false);
+          }
+        toast.success("Đăng ký thành công!");
+    } catch (err: any) {
+        console.error("Error during API call:", err);
+        setError(err.message || "Something went wrong");
+        toast.error("Đã xảy ra lỗi!");
+    } finally {
+        setPending(false);
     }
-  };
-
+  }
 
   return (
     <div className="h-full flex items-center justify-center bg-[#1b0918]">
