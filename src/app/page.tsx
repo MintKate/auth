@@ -13,23 +13,51 @@ const HomeComponent: React.FC = () => {
   const { data: sessionData } = useSession(); // Dữ liệu session từ next-auth
   const [showAlert, setShowAlert] = useState(false); // Trạng thái để hiển thị thông báo
   const [message, setMessage] = useState<string | null>(null); // Lưu thông báo kết quả
+  const [similarityScores, setSimilarityScores] = useState<SimilarityScores>({});
+
 
   // Cập nhật session khi có sự thay đổi
   // useEffect(() => {
   //   setSession(sessionData);
   // }, [sessionData]);
-  
-  const [similarityScores, setSimilarityScores] = useState(null);
+  interface SimilarityScores {
+    [key: string]: {
+      similarity_score: number;
+    };
+  }
 
   useEffect(() => {
     const storedScores = localStorage.getItem("similarityScores");
     if (storedScores) {
-      setSimilarityScores(JSON.parse(storedScores)); // Retrieve similarity_scores
+      setSimilarityScores(JSON.parse(storedScores));
     } else {
       console.log("No similarity scores found.");
     }
   }, []);
 
+  const topicMap = {
+    group_1: "Hệ thống kinh doanh nông nghiệp",
+    group_2: "Hệ thống quản lý tài chính cho cá nhân",
+    group_3: "Hệ thống tìm kiếm mặt bằng cho thuê",
+    group_4: "Hệ thống đào tạo thông minh cho sinh viên",
+  };
+  
+  const imageMap = {
+    group_1: "https://littlevisuals.co/images/red_dawn.jpg",
+    group_2: "https://littlevisuals.co/images/sunset.jpg",
+    group_3: "https://littlevisuals.co/images/tail.jpg",
+    group_4: "https://littlevisuals.co/images/steam.jpg",
+  };
+  
+  const scoresArray = similarityScores
+  ? Object.keys(similarityScores).map((groupKey) => ({
+      group: groupKey as keyof typeof topicMap,
+      similarity_score: similarityScores[groupKey]?.similarity_score || 0,
+    }))
+  : [];
+  
+
+  
   const [pending, setPending] = useState(false);
   const router = useRouter();
 
@@ -119,7 +147,7 @@ const HomeComponent: React.FC = () => {
       </div>
 
       {/* Displaying Product Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
       <InfoCard
           topicName="Hệ thống kinh doanh nông nghiệp"
           compatibility={session ? `${similarityScores?.["Topic A"] || "50%"}` : ""}
@@ -148,6 +176,19 @@ const HomeComponent: React.FC = () => {
           studentCount="5"
           onClick={() => handleJoinGroup("Topic D", similarityScores?.["Topic D"] || "90%")}
         />
+      </div> */}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+        {scoresArray.map(({ group, similarity_score }) => (
+          <InfoCard
+            key={group}
+            topicName={topicMap[group]}
+            compatibility={`${similarity_score.toFixed(2)}%`}
+            imageURL={imageMap[group]}
+            studentCount="4"
+            onClick={() => handleJoinGroup(topicMap[group], similarity_score.toFixed(2))}
+          />
+        ))}
       </div>
 
       {/* Hiển thị thông báo yêu cầu đăng nhập nếu chưa đăng nhập */}

@@ -15,16 +15,32 @@ export default function Notification() {
   });
   const [suitableGroup, setSuitableGroup] = useState(0);
 
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem("data");
+  //   if (storedData) {
+  //     const parsedData = JSON.parse(storedData);
+  //     setSuitableGroup(parsedData.suitable_group); // Cập nhật state an toàn
+  //   } else {
+  //     console.log("No data found.");
+  //   }
+  // }, []);
+
   useEffect(() => {
     const storedData = localStorage.getItem("data");
     if (storedData) {
       const parsedData = JSON.parse(storedData);
-      setSuitableGroup(parsedData.suitable_group); // Cập nhật state an toàn
-      localStorage.setItem("similarityScores", JSON.stringify(parsedData.similarity_scores)); // Save similarity_scores in localStorage
+      setSuitableGroup(parsedData.suitable_group);
+      if (parsedData.similarity_scores) {
+        localStorage.setItem(
+          "similarityScores",
+          JSON.stringify(parsedData.similarity_scores)
+        );
+      }
     } else {
       console.log("No data found.");
     }
   }, []);
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,37 +56,6 @@ export default function Notification() {
     };
   }, []);
   
-//   const handleFormSubmit = async (e: React.FormEvent) => {
-//     e.preventDefault();
-//     const storedData = localStorage.getItem("data");
-//     if (storedData) {
-//       const parsedData = JSON.parse(storedData);
-//       setPending(true);
-//       console.log(parsedData);
-//       const res = await fetch("/api/auth/signup", {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify(parsedData), // Gửi đối tượng đã được chuyển đổi thành JSON
-//       });
-  
-//       const data = await res.json();
-//       console.log(data);
-      
-//       if (res.ok) {
-//         setPending(false);
-//         router.push("/sign-in");
-//       } else if (res.status === 400) {
-//         setError(data.message);
-//         setPending(false);
-//       } else if (res.status === 500) {
-//         setError(data.message);
-//         setPending(false);
-//       }
-//     } else {
-//       console.log("No data found in localStorage.");
-//     }
-//   };
- 
 
 const handleAccept = async () => {
     const storedData = localStorage.getItem("data");
